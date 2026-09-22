@@ -1,6 +1,9 @@
+import { Link } from "react-router-dom";
+
 const BookListing = ( {book} ) => {
   return (
     <div className="book-preview">
+      <Link to={`/books/${book.id}`}><h2>{book.title}</h2></Link>
       <h2>Book Title:{book.title}</h2>
       <p>Author:{book.author}</p>
       <p>ISBN:{book.isbn}</p>
