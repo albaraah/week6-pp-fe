@@ -1,9 +1,11 @@
 import BookListing from "./BookListing";
 
-const BookListings = () => {
+const BookListings = ( {books} ) => {
   return (
     <div className="book-list">
-      <BookListing />
+    {books.map((book) =>( 
+      <BookListing book={book} key={book.id} />))}
+      
     </div>
   );
 };
