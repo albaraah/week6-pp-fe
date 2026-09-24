@@ -23,22 +23,41 @@ const BookPage = () => {
     getBookbyId();
   }, [id]);
 
+  const deleteBook = async (bookId) => {
+    try {
+      const res = await fetch(`/api/books/${bookId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete book");
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
+  };
+
+  const onDeleteClick = (bookId) => {
+    const confirm = window.confirm("Are you sure you want to delete this book?");
+    if (!confirm) return;
+    deleteBook(bookId);
+    navigate("/");
+  };
+
   return (
     <div className="book-preview">
-       {loading ? (
+      {loading ? (
         <p>Loading...</p>
       ) : (
-      <>
-        <h2>{book.title}</h2>
-        <p>Author: {book.author}</p>
-        <p>ISBN: {book.isbn}</p>
-        <p>Publisher: {book.publisher}</p>
-        <p>Genre:  {book.genre}</p>
-        <p>Available: {book.availability.isAvailable ? "Yes" : "No"}</p>
-        <p>Borrower: {book.availability.borrower || "—"}</p>
-        <p>Borrower: {book.borrower}</p>
-        <button onClick={() => navigate("/")}>Back</button>
-      </>
+        <>
+          <h2>{book.title}</h2>
+          <p>Author: {book.author}</p>
+          <p>ISBN: {book.isbn}</p>
+          <p>Publisher: {book.publisher}</p>
+          <p>Genre:  {book.genre}</p>
+          <p>Available: {book.availability.isAvailable ? "Yes" : "No"}</p>
+          <p>Borrower: {book.availability.borrower || "—"}</p>
+          <p>Borrower: {book.borrower}</p>
+          <button onClick={() => onDeleteClick(book._id)}>Delete</button>
+          <button onClick={() => navigate("/")}>Back</button>
+        </>
       )}
     </div>
   );
