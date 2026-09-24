@@ -9,7 +9,8 @@ const BookListing = ( {book} ) => {
       <p>ISBN:{book.isbn}</p>
       <p>Publisher:{book.publisher}</p>
       <p>Genre:{book.genre}</p>
-      <p>Available:{book.availability.isAvailbale ? "Yes" : "No"}</p>
+      <p>Available:{book.availability.isAvailable ? "Yes" : "No"}</p>
+      <p>Due Date:{book.availability.dueDate ? book.availability.dueDate.split("T")[0]: ""}</p>
     </div>
   );
 };

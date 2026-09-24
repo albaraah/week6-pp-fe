@@ -54,7 +54,8 @@ const BookPage = () => {
           <p>Genre:  {book.genre}</p>
           <p>Available: {book.availability.isAvailable ? "Yes" : "No"}</p>
           <p>Borrower: {book.availability.borrower || "—"}</p>
-          <p>Borrower: {book.borrower}</p>
+          <p>Due Date: {book.availability.dueDate ? book.availability.dueDate.split("T")[0]: ""}</p>
+          <button onClick={() => navigate(`/edit-book/${book._id}`)}>Edit</button>
           <button onClick={() => onDeleteClick(book._id)}>Delete</button>
           <button onClick={() => navigate("/")}>Back</button>
         </>
