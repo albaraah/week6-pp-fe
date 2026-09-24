@@ -33,6 +33,13 @@
   margin: 40px auto;
   padding: 20px;
 }
+.navbar button {
+  color: white;
+  background-color: #f1356d;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 15px;
+}
 
 /* book previews / list */
 

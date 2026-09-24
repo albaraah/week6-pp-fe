@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const BookPage = () => {
+const BookPage = ({ isAuthenticated }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
   const navigate = useNavigate();
   const { id } = useParams();
   const [book, setBook] = useState(null);
@@ -27,6 +29,9 @@ const BookPage = () => {
     try {
       const res = await fetch(`/api/books/${bookId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!res.ok) throw new Error("Failed to delete book");
     } catch (error) {
@@ -54,9 +59,13 @@ const BookPage = () => {
           <p>Genre:  {book.genre}</p>
           <p>Available: {book.availability.isAvailable ? "Yes" : "No"}</p>
           <p>Borrower: {book.availability.borrower || "—"}</p>
-          <p>Due Date: {book.availability.dueDate ? book.availability.dueDate.split("T")[0]: ""}</p>
-          <button onClick={() => navigate(`/edit-book/${book._id}`)}>Edit</button>
-          <button onClick={() => onDeleteClick(book._id)}>Delete</button>
+          <p>Due Date: {book.availability.dueDate ? book.availability.dueDate.split("T")[0] : ""}</p>
+          {isAuthenticated && (
+            <>
+              <button onClick={() => navigate(`/edit-book/${book._id}`)}>Edit</button>
+              <button onClick={() => onDeleteClick(book._id)}>Delete</button>
+            </>
+          )}
           <button onClick={() => navigate("/")}>Back</button>
         </>
       )}

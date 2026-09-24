@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const EditBookPage = () => {
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [isbn, setIsbn] = useState("");
@@ -40,7 +41,10 @@ const EditBookPage = () => {
     try {
       const res = await fetch(`/api/books/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,    
+        },
         body: JSON.stringify(updatedBook),
       });
       if (!res.ok) throw new Error("Failed to update book");
@@ -114,7 +118,7 @@ const EditBookPage = () => {
           <option value="false">No</option>
         </select>
         <label>Due Date:</label>
-        <input 
+        <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
